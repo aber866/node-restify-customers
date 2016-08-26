@@ -1,0 +1,52 @@
+{
+  "name": "CustomerApi",
+  "version": "1.0.0",
+  "prefix": "/v1",
+  "description": "Middleware API to manage CRUD operations about customers with Node JS.",
+  "apidoc": {
+    "title": "CustomerApi",
+    "url": "/v1/user"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aber866/node-restify-customers.git"
+  },
+  "main": "app.js",
+  "scripts": {
+    "postinstall": "npm prune && npm test",
+    "test": "mocha test/server/*Test.js",
+    "preversion": "npm test && npm prune",
+    "start": "node app.js",
+    "postversion": "git push && git push --tags"
+  },
+  "engines": {
+    "node": "4.x"
+  },
+  "author": "Alberto Valverde Templado",
+  "license": "none",
+  "dependencies": {
+    "bluebird": "^3.0.6",
+    "chai": "^2.1.2",
+    "chai-as-promised": "^4.3.0",
+    "config": "^1.12.0",
+    "eslint": "^3.3.1",
+    "generator-runner": "^2.2.0",
+    "joi": "^9.0.4",
+    "mocha": "^2.2.1",
+    "moment": "^2.10.3",
+    "mongodb": "^2.1.4",
+    "restify": "^4.0.3",
+    "restify-server-manager": "^1.3.0",
+    "xcatalog": "^0.1.0",
+    "xreq": "^2.0.0"
+  },
+  "xreq": {
+    "server": "src/server",
+    "app": "src/server/app",
+    "customer": "src/server/app/customer",
+    "customerapi": "src/server/api/customer",
+    "exceptions": "src/server/exceptions",
+    "utils": "src/server/utils",
+    "routes": "src/server/routes"
+  }
+}

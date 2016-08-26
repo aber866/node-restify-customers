@@ -1,0 +1,14 @@
+{
+    "name": "CustomerApi",
+    "routes": ["/src/server/routes/customerRouter"],
+    "version": "1.0.0",
+    "server": {
+       "port": 8190,
+       "protocol": "HTTP",
+       "url": "http://localhost:8190"
+    },
+    "mongodb": {
+        "url": "mongodb://localhost:27017/Customers",
+        "url_test": "mongodb://localhost:27017/CustomersTest"
+    }
+}
