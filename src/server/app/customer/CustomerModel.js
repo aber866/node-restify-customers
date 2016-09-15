@@ -10,10 +10,17 @@ class CustomerModel {
         this.moment = moment;
     }
 
-    insertCustomer (customer) {
+    insert (customer) {
         const doc = { username: customer.username, fullname: customer.fullname, email: customer.email,
             address: customer.address, lastUpdated: customer.lastUpdated };
         return helpers.mongodb.insertOne(this.collection, doc).then((id) => id.toHexString());
+    }
+
+    list (page, size) {
+        return this.collection.find()
+        .skip((page - 1) * size)
+        .limit(size)
+        .toArray();
     }
 
     deleteAll () {

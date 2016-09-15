@@ -1,3 +1,4 @@
+/*jslint node: true*/
 "use strict";
 
 class ServiceException extends Error {
@@ -5,15 +6,24 @@ class ServiceException extends Error {
         super(message);
         Error.captureStackTrace(this, this.constructor);
         this.name = this.constructor.name;
+        this.status = 500;
         if (message) {
             this.message = message;
         }
     }
 }
 
+class BadRequestException extends ServiceException {
+    constructor (message) {
+        super(message);
+        this.status = 400;
+    }
+}
+
 class NotFoundException extends ServiceException {
     constructor (collection, resource, message) {
         super(message);
+        this.status = 404;
         this.collection = collection;
         this.resource = resource;
     }
@@ -22,12 +32,14 @@ class NotFoundException extends ServiceException {
 class AccessDeniedException extends ServiceException {
     constructor (message) {
         super(message);
+        this.status = 403;
     }
 }
 
 class ValidationException extends ServiceException {
     constructor (errors, message) {
         super(message);
+        this.status = 422;
         this.errors = errors;
     }
 }
@@ -35,6 +47,7 @@ class ValidationException extends ServiceException {
 class InternalException extends ServiceException {
     constructor (message) {
         super(message);
+        this.status = 500;
     }
 }
 
@@ -43,5 +56,6 @@ module.exports = {
     AccessDenied: AccessDeniedException,
     NotFound: NotFoundException,
     Validation: ValidationException,
-    Internal: InternalException
+    Internal: InternalException,
+    BadRequest: BadRequestException
 };

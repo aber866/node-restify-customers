@@ -7,6 +7,10 @@ class CustomerSchemas {
 			email: Joi.string().email().required().description("Email"),
 			address: Joi.object().description("Address")
 		});
+		this.listSchema = Joi.object().keys({
+			page: Joi.number().integer().min(1).description("Pagination page"),
+            size: Joi.number().integer().min(1).max(100).description("Pagination size"),
+		});
 	}
 }
 

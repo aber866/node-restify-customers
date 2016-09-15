@@ -7,17 +7,8 @@ const xcatalog = require("xcatalog"),
 
 describe("Customer Service", () => {
     let service, model;
-    const customer01 = {
-        "username": "aber866",
-        "fullname": "Jhon Smith",
-        "email": "jhon@outlook.com",
-        "address": {
-            "line1": "39 Carengie House",
-            "city": "Milton Keynes",
-            "postcode": "MK9 2DA",
-            "country": "UK"
-        }
-    };
+    const data = Object.freeze(require("./data.json")),
+        c01 = data.customer01, c02 = data.customer02, c03 = data.customer03;
 
     before(() =>
         xcatalog.ready().then(() => {
@@ -33,32 +24,57 @@ describe("Customer Service", () => {
     beforeEach(cleanUp);
     afterEach(cleanUp);
 
-    describe("CustomerService.insertCustomer(username, fullname, email, address)", () => {
+    describe("CustomerService.insert(username, fullname, email, address)", () => {
         it("should insert a new customer to the data base", () =>
-            service.insertCustomer(customer01.username, customer01.fullname, customer01.email,
-            customer01.address).then((customer) => {
+            service.insert(c01.username, c01.fullname, c01.email,
+            c01.address).then((customer) => {
                 expect(customer.id).is.a("string");
-                expect(customer.username).equal(customer01.username);
-                expect(customer.fullname).equal(customer01.fullname);
-                expect(customer.email).equal(customer01.email);
-                expect(customer.address).eql(customer01.address);
+                expect(customer.username).equal(c01.username);
+                expect(customer.fullname).equal(c01.fullname);
+                expect(customer.email).equal(c01.email);
+                expect(customer.address).eql(c01.address);
             })
         );
         it("should throw a validation exception when username parameter is missing", () =>
-            expect(service.insertCustomer(null, customer01.fullname, customer01.email, customer01.address))
+            expect(service.insert(null, c01.fullname, c01.email, c01.address))
             .rejectedWith(Exceptions.Validation)
         );
         it("should throw a validation exception when email parameter is missing", () =>
-            expect(service.insertCustomer(customer01.username, customer01.fullname, null, customer01.address))
+            expect(service.insert(c01.username, c01.fullname, null, c01.address))
             .rejectedWith(Exceptions.Validation)
         );
         it("should throw a validation exception when email parameter has wrong email format", () =>
-            expect(service.insertCustomer(customer01.username, customer01.fullname, "wrongMail", customer01.address))
+            expect(service.insert(c01.username, c01.fullname, "wrongMail", c01.address))
             .rejectedWith(Exceptions.Validation)
         );
         it("should throw a validation exception when address parameter is not an object", () =>
-            expect(service.insertCustomer(customer01.username, customer01.fullname, customer01.email, "wrongAddress"))
+            expect(service.insert(c01.username, c01.fullname, c01.email, "wrongAddress"))
             .rejectedWith(Exceptions.Validation)
+        );
+    });
+
+    describe("CustomerService.list(options)", () => {
+        beforeEach(function () {
+            return Promise.all([
+                service.insert(c01.username, c01.fullname, c01.email, c01.address),
+                service.insert(c02.username, c02.fullname, c02.email, c02.address),
+                service.insert(c03.username, c03.fullname, c03.email, c03.address)
+            ]);
+        });
+        it("should get all customers", () =>
+            service.list().then((list) => expect(list.length).equal(3))
+        );
+        it("should get all customers supporting pagging", () =>
+            Promise.all([
+                service.list({ page: 1, size: 1 }),
+                service.list({ page: 1, size: 2 })
+            ]).then((list) => {
+                expect(list[0].length).equals(1);
+                expect(list[1].length).equals(2);
+            })
+        );
+        it("should throw a validation exception when page or size are not integers over 1", () =>
+            expect(service.list({ page: 0, size: "1" })).rejectedWith(Exceptions.Validation)
         );
     });
 });

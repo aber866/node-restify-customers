@@ -1,0 +1,35 @@
+{
+	"customer01": {
+        "username": "test01",
+        "fullname": "Jhon Smith",
+        "email": "test01@testing.com",
+        "address": {
+            "line1": "39 Carengie House",
+            "city": "Milton Keynes",
+            "postcode": "MK9 2DA",
+            "country": "UK"
+        }
+    },
+	"customer02": {
+		"username": "test02",
+        "fullname": "Richard Hendrix",
+        "email": "test02@testing.com",
+        "address": {
+            "line1": "40 Carengie House",
+            "city": "Milton Keynes",
+            "postcode": "MK9 2DA",
+            "country": "UK"
+        }
+	},
+	"customer03": {
+		"username": "test03",
+        "fullname": "Susan Dall",
+        "email": "test03@testing.com",
+        "address": {
+            "line1": "41 Carengie House",
+            "city": "Milton Keynes",
+            "postcode": "MK9 2DA",
+            "country": "UK"
+        }
+	}
+}

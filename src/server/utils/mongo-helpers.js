@@ -2,14 +2,6 @@
 
 
 module.exports = {
-    copyAndMap (orig, dest, fields) {
-        Object.keys(fields).forEach(function (key) {
-            if (orig[key] !== undefined) {
-                dest[fields[key]] = orig[key];
-            }
-        });
-        return dest;
-    },
     mongodb: {
         findOne (collection, filter) {
             return collection.findOne(filter, { "_id": 0 }).then(function (doc) {
