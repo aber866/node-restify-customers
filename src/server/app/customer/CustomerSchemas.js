@@ -11,6 +11,9 @@ class CustomerSchemas {
 			page: Joi.number().integer().min(1).description("Pagination page"),
             size: Joi.number().integer().min(1).max(100).description("Pagination size"),
 		});
+		this.getSchema = Joi.object().keys({
+			username: Joi.string().alphanum().min(3).max(30).required().description("Username")
+		});
 	}
 }
 

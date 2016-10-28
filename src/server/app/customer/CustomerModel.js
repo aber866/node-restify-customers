@@ -23,6 +23,11 @@ class CustomerModel {
         .toArray();
     }
 
+    get (username) {
+        const selector = { username };
+        return helpers.mongodb.findOne(this.collection, selector);
+    }
+
     deleteAll () {
         return helpers.mongodb.deleteAll(this.collection);
     }

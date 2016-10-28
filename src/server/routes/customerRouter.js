@@ -31,4 +31,15 @@ module.exports = function (server) {
             return next(res.json(result));
         });
     });
+
+    /* GET a customers */
+    server.get({ path: "/customers/:customer", version: "1.0.0", monitor: true }, (req, res, next) => {
+        const customer = req.params.customer;
+        xcatalog("get").run(customer, (err, result) => {
+            if (err instanceof Error) {
+                return next(err);
+            }
+            return next(res.json(result));
+        });
+    });
 };

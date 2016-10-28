@@ -51,6 +51,13 @@ describe("Customer Service", () => {
             expect(service.insert(c01.username, c01.fullname, c01.email, "wrongAddress"))
             .rejectedWith(Exceptions.Validation)
         );
+        it("should throw an exception when the customer already exists", () =>
+            service.insert(c01.username, c01.fullname, c01.email, c01.address)
+            .then(() =>
+                expect(service.insert(c01.username, c01.fullname, c01.email, c01.address))
+                .rejectedWith(Exceptions.Internal)
+            )
+        );
     });
 
     describe("CustomerService.list(options)", () => {
@@ -75,6 +82,27 @@ describe("Customer Service", () => {
         );
         it("should throw a validation exception when page or size are not integers over 1", () =>
             expect(service.list({ page: 0, size: "1" })).rejectedWith(Exceptions.Validation)
+        );
+    });
+
+    describe("CustomerService.get(username)", () => {
+        beforeEach(function () {
+            return service.insert(c01.username, c01.fullname, c01.email, c01.address);
+        });
+        it("should get a previouly inserted customer", () =>
+            service.get(c01.username).then((info) => {
+                expect(info).is.a("object");
+                expect(info.username).equal(c01.username);
+                expect(info.fullname).equal(c01.fullname);
+                expect(info.email).equal(c01.email);
+                expect(info.address).eql(c01.address);
+            })
+        );
+        it("should throw a validation exception when username parameter is missing", () =>
+            expect(service.get()).rejectedWith(Exceptions.Validation)
+        );
+        it("should throw a notfound exception if the customer is not found", () =>
+            expect(service.get(c02.username)).rejectedWith(Exceptions.NotFound)
         );
     });
 });

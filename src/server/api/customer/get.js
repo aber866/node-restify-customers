@@ -3,11 +3,11 @@
 const xcatalog = require("xcatalog"),
     runner = require("generator-runner");
 
-exports.run = function (username, fullname, email, address, cb) {
-    runner(function* insertCustomer () {
+exports.run = function (username, cb) {
+    runner(function* list () {
         let result, error;
         try {
-            result = yield xcatalog("customerService").insert(username, fullname, email, address);
+            result = yield xcatalog("customerService").get(username);
         } catch(err) {
             error = err;
         } finally {
@@ -20,4 +20,3 @@ exports.run = function (username, fullname, email, address, cb) {
         cb(err, ret);
     });
 };
-

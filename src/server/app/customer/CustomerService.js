@@ -8,6 +8,15 @@ function validation (itself, data, schema) {
     return Promise.resolve();
 }
 
+function modelResponse (itself, resolve, reject, id) {
+    return function (info) {
+        if (!info) {
+            reject(new itself.exceptions.NotFound("customers", id, "Customer not found"));
+        }
+        resolve(info);
+    };
+}
+
 function rejectBase (itself, reject) {
     return function () {
         reject(new itself.exceptions.Base("There was a problem processing your query"));
@@ -27,14 +36,19 @@ class CustomerService {
             data = { username, email, address },
             schema = this.schemas.insertCustomerSchema;
         return validation(this, data, schema).then(() =>
-            new Promise((resolve, reject) =>
-                this.model.insert(nCustomer)
+            this.model.get(username)
+        ).then((customer) =>
+            new Promise((resolve, reject) => {
+                if (customer) {
+                    return reject(new this.exceptions.Internal("Username already exists"));
+                }
+                return this.model.insert(nCustomer)
                 .then((id) => {
                     nCustomer.id = id;
                     return resolve(nCustomer);
                 })
-                .catch(rejectBase(this, reject))
-            )
+                .catch(rejectBase(this, reject));
+            })
         );
     }
 
@@ -43,6 +57,18 @@ class CustomerService {
         const data = { page: options.page, size: options.size },
             schema = this.schemas.listSchema;
         return validation(this, data, schema).then(() => this.model.list(options.page || 1, options.size || 100));
+    }
+
+    get (username) {
+        const data = { username },
+            schema = this.schemas.getSchema;
+        return validation(this, data, schema).then(() =>
+            new Promise((resolve, reject) =>
+                this.model.get(username)
+                .then(modelResponse(this, resolve, reject, username))
+                .catch(rejectBase(this, reject))
+            )
+        );
     }
 }
 
