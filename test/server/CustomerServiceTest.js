@@ -105,4 +105,43 @@ describe("Customer Service", () => {
             expect(service.get(c02.username)).rejectedWith(Exceptions.NotFound)
         );
     });
+
+    describe("CustomerService.update(username, fields)", () => {
+        beforeEach(function () {
+            return service.insert(c01.username, c01.fullname, c01.email, c01.address);
+        });
+        it("should update several details of a customer", () =>
+            service.update(c01.username, data.updatedDetails)
+            .then((result) => {
+                expect(result).equal(1);
+                return service.get(c01.username);
+            }).then((customer) => {
+                expect(customer.fullname).equal(data.updatedDetails.fullname);
+                expect(customer.email).equal(data.updatedDetails.email);
+                expect(customer.address).eql(c01.address);
+            })
+        );
+        it("should update the username of a customer", () =>
+            service.update(c01.username, { "username": "test01Updated" })
+            .then((result) => {
+                expect(result).equal(1);
+                return service.get("test01Updated");
+            }).then((customer) => {
+                expect(customer.username).equal("test01Updated");
+                expect(customer.fullname).equal(c01.fullname);
+            })
+        );
+        it("should throw a notfound exception if the customer is not found", () =>
+            expect(service.update(c02.username, data.updatedDetails))
+            .rejectedWith(Exceptions.NotFound)
+        );
+        it("should throw a validation exception when username parameter is missing", () =>
+            expect(service.update()).rejectedWith(Exceptions.Validation)
+        );
+        it("should not throw and error and not update anything when the second parameter is an empty object", () =>
+            service.update(c01.username, { }).then((result) => {
+                expect(result).equal(1);
+            })
+        );
+    });
 });

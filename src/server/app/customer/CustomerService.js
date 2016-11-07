@@ -70,6 +70,21 @@ class CustomerService {
             )
         );
     }
+
+    update (username, fields) {
+        const data = { username, fields },
+            schema = this.schemas.updateSchema;
+        return validation(this, data, schema).then(() => {
+            fields.lastUpdated = new Date();
+            return this.get(username);
+        }).then(() =>
+            new Promise((resolve, reject) =>
+                this.model.update(username, fields)
+                .then((updated) => resolve(updated))
+                .catch(rejectBase(this, reject))
+            )
+        );
+    }
 }
 
 module.exports = CustomerService;

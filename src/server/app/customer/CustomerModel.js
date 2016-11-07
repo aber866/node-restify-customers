@@ -1,8 +1,7 @@
 "use strict";
 
 const xreq = require("xreq"),
-    helpers = xreq.utils("mongo-helpers"),
-    ObjectID = require("mongodb").ObjectID;
+    helpers = xreq.utils("mongo-helpers");
 
 class CustomerModel {
     constructor (db, moment) {
@@ -24,8 +23,15 @@ class CustomerModel {
     }
 
     get (username) {
-        const selector = { username };
-        return helpers.mongodb.findOne(this.collection, selector);
+        return helpers.mongodb.findOne(this.collection, { username });
+    }
+
+    update (username, fields) {
+        return helpers.mongodb.updateOne(
+            this.collection,
+            { username },
+            { $set: fields }
+        );
     }
 
     deleteAll () {

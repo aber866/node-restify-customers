@@ -34,6 +34,7 @@ function load (xcatalog, onTest, conf) {
     .set("insert", "constant", customerapi("insert"))
     .set("list", "constant", customerapi("list"))
     .set("get", "constant", customerapi("get"))
+    .set("update", "constant", customerapi("update"))
 
     // Router
     .set("customerRouter", "singleton", routes("customerRouter"), ["xcatalog"]);

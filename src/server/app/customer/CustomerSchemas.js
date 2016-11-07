@@ -14,6 +14,10 @@ class CustomerSchemas {
 		this.getSchema = Joi.object().keys({
 			username: Joi.string().alphanum().min(3).max(30).required().description("Username")
 		});
+		this.updateSchema = Joi.object().keys({
+			username: Joi.string().alphanum().min(3).max(30).required().description("Username"),
+			fields: Joi.object().required().description("Fields"),
+		});
 	}
 }
 

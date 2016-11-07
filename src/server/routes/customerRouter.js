@@ -42,4 +42,15 @@ module.exports = function (server) {
             return next(res.json(result));
         });
     });
+
+    /* PATCH update a customer */
+    server.patch({ path: "/customers/:customer", version: "1.0.0", monitor: true }, (req, res, next) => {
+        const customer = req.params.customer, fields = req.body;
+        xcatalog("update").run(customer, fields, (err, result) => {
+            if (err instanceof Error) {
+                return next(err);
+            }
+            return next(res.json({ result }));
+        });
+    });
 };

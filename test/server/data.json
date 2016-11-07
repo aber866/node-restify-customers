@@ -31,5 +31,9 @@
             "postcode": "MK9 2DA",
             "country": "UK"
         }
-	}
+	},
+    "updatedDetails": {
+        "fullname": "test01 fullname updated",
+        "email": "test01@testing.com updated"
+    }
 }
