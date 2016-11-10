@@ -30,12 +30,6 @@ function load (xcatalog, onTest, conf) {
     .set("customerService", "singleton", customer("CustomerService"), ["exceptions", "customerModel",
         "customerSchemas", "Joi"])
 
-    // Api user
-    .set("insert", "constant", customerapi("insert"))
-    .set("list", "constant", customerapi("list"))
-    .set("get", "constant", customerapi("get"))
-    .set("update", "constant", customerapi("update"))
-
     // Router
     .set("customerRouter", "singleton", routes("customerRouter"), ["xcatalog"]);
 

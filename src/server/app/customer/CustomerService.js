@@ -72,7 +72,7 @@ class CustomerService {
     }
 
     update (username, fields) {
-        const data = { username, fields },
+        const data = { username, fields, updatedUsername: fields.username },
             schema = this.schemas.updateSchema;
         return validation(this, data, schema).then(() => {
             fields.lastUpdated = new Date();
@@ -81,6 +81,16 @@ class CustomerService {
             new Promise((resolve, reject) =>
                 this.model.update(username, fields)
                 .then((updated) => resolve(updated))
+                .catch(rejectBase(this, reject))
+            )
+        );
+    }
+
+    delete (username) {
+        return this.get(username).then(() =>
+            new Promise((resolve, reject) =>
+                this.model.delete(username)
+                .then((deleted) => resolve(deleted))
                 .catch(rejectBase(this, reject))
             )
         );

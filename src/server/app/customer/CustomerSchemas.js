@@ -17,6 +17,7 @@ class CustomerSchemas {
 		this.updateSchema = Joi.object().keys({
 			username: Joi.string().alphanum().min(3).max(30).required().description("Username"),
 			fields: Joi.object().required().description("Fields"),
+			updatedUsername: Joi.string().alphanum().min(3).max(30).description("Username updated")
 		});
 	}
 }

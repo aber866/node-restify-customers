@@ -144,4 +144,22 @@ describe("Customer Service", () => {
             })
         );
     });
+
+    describe("CustomerService.delete(username)", () => {
+        beforeEach(function () {
+            return service.insert(c01.username, c01.fullname, c01.email, c01.address);
+        });
+        it("should delete a previouly inserted customer", () =>
+            service.delete(c01.username).then((result) => {
+                expect(result).equal(1);
+                expect(service.get(c01.username)).rejectedWith(Exceptions.NotFound);
+            })
+        );
+        it("should throw a notfound exception if the customer is not found", () =>
+            expect(service.delete(c02.username)).rejectedWith(Exceptions.NotFound)
+        );
+        it("should throw a validation exception when username parameter is missing", () =>
+            expect(service.delete()).rejectedWith(Exceptions.Validation)
+        );
+    });
 });

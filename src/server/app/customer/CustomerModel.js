@@ -34,6 +34,10 @@ class CustomerModel {
         );
     }
 
+    delete (username) {
+        return helpers.mongodb.deleteOne(this.collection, { username });
+    }
+
     deleteAll () {
         return helpers.mongodb.deleteAll(this.collection);
     }
