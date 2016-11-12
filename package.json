@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "prefix": "/v1",
   "description": "Middleware API to manage CRUD operations about customers with Node JS.",
-  "apidoc": {
-    "title": "CustomerApi",
-    "url": "/v1/user"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/aber866/node-restify-customers.git"
@@ -30,7 +26,6 @@
     "chai-as-promised": "^4.3.0",
     "config": "^1.12.0",
     "eslint": "^3.3.1",
-    "generator-runner": "^2.2.0",
     "joi": "^9.0.4",
     "mocha": "^2.2.1",
     "moment": "^2.10.3",
@@ -44,7 +39,6 @@
     "server": "src/server",
     "app": "src/server/app",
     "customer": "src/server/app/customer",
-    "customerapi": "src/server/api/customer",
     "exceptions": "src/server/exceptions",
     "utils": "src/server/utils",
     "routes": "src/server/routes"

@@ -72,7 +72,7 @@ class CustomerService {
     }
 
     update (username, fields) {
-        const data = { username, fields, updatedUsername: fields.username },
+        const data = { username, fields, updatedUsername: fields && fields.username },
             schema = this.schemas.updateSchema;
         return validation(this, data, schema).then(() => {
             fields.lastUpdated = new Date();
