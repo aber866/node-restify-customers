@@ -1,6 +1,6 @@
 {
   "name": "CustomerApi",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "prefix": "/v1",
   "description": "Middleware API to manage CRUD operations about customers with Node JS.",
   "repository": {
